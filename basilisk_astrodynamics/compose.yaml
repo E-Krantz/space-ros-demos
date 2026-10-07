@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: basilisk-space-ros-test
+    image: space-ros-basilisk-demo:latest
     network_mode: host
     stdin_open: true
     tty: true

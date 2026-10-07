@@ -1,4 +1,4 @@
-FROM osrf/space-ros:jazzy-2026.04.0
+FROM osrf/space-ros:jazzy-2026.07.0
 
 USER root
 
@@ -57,6 +57,11 @@ RUN PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install \
     casadi \
     pyzmq \
     orjson \
+    requests \
+    certifi \
+    charset-normalizer \
+    idna \
+    urllib3 \
     future-fstrings \
     colorama \
     tqdm \

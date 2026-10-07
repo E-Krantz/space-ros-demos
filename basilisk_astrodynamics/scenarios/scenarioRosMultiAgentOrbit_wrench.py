@@ -1,3 +1,5 @@
+import argparse
+
 from Basilisk.simulation import spacecraft, thrusterDynamicEffector, simSynch, simpleNav
 from Basilisk.utilities import SimulationBaseClass, macros, vizSupport, simIncludeThruster, simIncludeGravBody, orbitalMotion
 from Basilisk.fswAlgorithms import thrFiringSchmitt, hillStateConverter, hillPoint, attTrackingError
@@ -244,6 +246,12 @@ def run(liveStream=False, broadcastStream=False, simTime=60.0, simRate=100.0, th
         for scObject_i in scObject:
             vizSupport.createCustomModel(viz, simBodiesToModify=[scObject_i.ModelTag],
                                         modelPath='bskSat', scale=[0.1]*3)
+
+        viz.settings.trueTrajectoryLinesOn = -1
+        viz.settings.spacecraftOrbitLineWidth = 1.0
+        viz.settings.spacecraftShadowBrightness = 0.30
+        viz.settings.ambient = 1.0
+        viz.settings.sunIntensity = 1.0
             
     # --- Run the simulation ---
     scSim.InitializeSimulation()
@@ -255,9 +263,18 @@ def run(liveStream=False, broadcastStream=False, simTime=60.0, simRate=100.0, th
     return
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run the multi-agent Basilisk orbit scenario.")
+    parser.add_argument(
+        "--stream-mode",
+        choices=("live", "broadcast"),
+        default="live",
+        help="Vizard stream mode (default: live).",
+    )
+    args = parser.parse_args()
+
     run(
-        liveStream=True,
-        broadcastStream=False,
+        liveStream=args.stream_mode == "live",
+        broadcastStream=args.stream_mode == "broadcast",
         simTime=1e6,
         simRate=200.0,
         accelFactor=1.0,
